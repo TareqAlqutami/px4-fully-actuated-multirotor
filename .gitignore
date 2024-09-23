@@ -1,6 +1,6 @@
 build/
 install/
-ros2_code/px4_msgs
+ros2_code/src/px4_msgs
 matlab/results
 log/
 __pycache__/
