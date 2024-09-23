@@ -1,0 +1,275 @@
+<?xml version="1.0"?>
+<robot name="tilted_hex_arm" xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <link name="map"/>  
+    <link name="base_link_roll"/>
+    <link name="base_link_pitch"/>
+    <link name="base_link_yaw"/>
+    <link name="x_link"/>
+    <link name="y_link"/>
+    <link name="z_link"/>
+
+    <joint name="x_joint" type="prismatic">
+                <parent link="map"/>
+                <child link="x_link"/>
+                <axis xyz="1 0 0"/>
+                <limit effort="1000.0" lower="-100.0" upper="100.0" velocity="20"/>
+    </joint>
+    <joint name="y_joint" type="prismatic">
+                <parent link="x_link"/>
+                <child link="y_link"/>
+                <axis xyz="0 1 0"/>
+                <limit effort="1000.0" lower="-100.0" upper="100.0" velocity="20"/>
+    </joint>
+    <joint name="z_joint" type="prismatic">
+                <parent link="y_link"/>
+                <child link="z_link"/>
+                <axis xyz="0 0 1"/>
+                <limit effort="1000.0" lower="-100.0" upper="100.0" velocity="20"/>
+    </joint>
+    <joint name="yaw_joint" type="revolute">
+                <parent link="z_link"/>
+                <child link="base_link_yaw"/>
+                <axis xyz="0 0 1"/>
+                <limit effort="10.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="20"/>
+    </joint>
+    <joint name="pitch_joint" type="revolute">
+                <parent link="base_link_yaw"/>
+                <child link="base_link_pitch"/>
+                <axis xyz="0 1 0"/>
+                <limit effort="10.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="20"/>
+    </joint>
+    <joint name="roll_joint" type="revolute">
+                <parent link="base_link_pitch"/>
+                <child link="base_link_roll"/>
+                <axis xyz="1 0 0"/>
+                <limit effort="10.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="20"/>
+    </joint>
+
+
+    <link name='base_link'>
+       <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <mass value="3.02"/>
+            <inertia ixx="0.08" ixy="0.0" ixz="0.0" iyy="0.08" iyz="0.0" izz="0.12"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 -0.03"/>
+        <geometry>
+          <box size="0.3 0.3 0.09"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 3.141592653589793" xyz="0 0 0.0"/>
+        <geometry>
+          <mesh filename="package://am_description/meshes/hex_x/main_body_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material  name="darkred">
+            <color rgba="0.6 0.0 0.0 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="base_joint" type="fixed">
+                <parent link="base_link_roll"/>
+                <child link="base_link"/>
+    </joint>
+
+    <link name='end_effector'>
+    </link>
+    <joint name="end_effector_joint" type="fixed">
+                <parent link="base_link"/>
+                <child link="end_effector"/>
+    </joint>
+
+    <link name="imu_link">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <mass value="0.015"/>
+            <inertia ixx="1e-05" ixy="0.0" ixz="0.0" iyy="1e-07" iyz="0.0" izz="1e-07"/>
+        </inertial>
+    </link>
+     <joint name='imu_joint' type='fixed'>
+        <child  link="imu_link"/>
+        <parent link="base_link"/>
+    </joint>
+   
+    <link name='rotor1'>
+       <inertial>
+            <origin rpy=" 0 0 0" xyz="0. 0. 0"/>
+            <mass value="0.005"/>
+            <inertia ixx="9.75e-07" ixy="0.0" ixz="0.0" iyy="0.0000273104" iyz="0.0" izz="0.0000273104"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+            <cylinder length="0.005" radius="0.12"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="0.0 -0.24 -0.082219"/>
+        <geometry>
+          <mesh filename="package://am_description/meshes/hex_x/prop_cw_assembly_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material  name="blue">
+            <color rgba="0.0 0.0 1 1"/>
+        </material>
+      </visual>
+    </link>
+     <joint name='rotor1_joint' type='revolute'>
+        <child  link="rotor1"/>
+        <parent link="base_link"/>
+        <axis xyz="0 0.0 1"/>
+        <limit effort="10" lower="-1e+16" upper="1e+16" velocity="-1"/>
+        <origin rpy="0 0 3.1416" xyz="0.0 -0.24 0.082219"/>
+    </joint>
+
+    <link name='rotor2'>
+       <inertial>
+            <origin rpy=" 0 0 0" xyz="0. 0. 0"/>
+            <mass value="0.005"/>
+            <inertia ixx="9.75e-07" ixy="0.0" ixz="0.0" iyy="0.0000273104" iyz="0.0" izz="0.0000273104"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+            <cylinder length="0.005" radius="0.12"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="-0.211396 -0.119762 -0.082219"/>
+        <geometry>
+          <mesh filename="package://am_description/meshes/hex_x/prop_ccw_assembly_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material  name="darkgray">
+            <color rgba="0.6 0.6 0.6 1"/>
+        </material>
+      </visual>
+    </link>
+     <joint name='rotor2_joint' type='revolute'>
+        <child  link="rotor2"/>
+        <parent link="base_link"/>
+        <axis xyz="0.0 0.0 1"/>
+        <limit effort="10" lower="-1e+16" upper="1e+16" velocity="-1"/>
+        <origin rpy="0 0 0.0" xyz="0.0 0.24 0.082219"/>
+    </joint>
+
+    <link name='rotor3'>
+       <inertial>
+            <origin rpy=" 0 0 0" xyz="0. 0. 0"/>
+            <mass value="0.005"/>
+            <inertia ixx="9.75e-07" ixy="0.0" ixz="0.0" iyy="0.0000273104" iyz="0.0" izz="0.0000273104"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+            <cylinder length="0.005" radius="0.12"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="0.00187896 -0.242705 -0.082219"/>
+        <geometry>
+          <mesh filename="package://am_description/meshes/hex_x/prop_cw_assembly_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material  name="blue">
+            <color rgba="0.0 0.0 1 1"/>
+        </material>
+      </visual>
+    </link>
+     <joint name='rotor3_joint' type='revolute'>
+        <child  link="rotor3"/>
+        <parent link="base_link"/>
+        <axis xyz="0 0.0 1"/>
+        <limit effort="10" lower="-1e+16" upper="1e+16" velocity="-1"/>
+        <origin rpy="0 0 -1.0472" xyz="0.211396 0.119762 0.082219"/>
+    </joint>
+
+    <link name='rotor4'>
+       <inertial>
+            <origin rpy=" 0 0 0" xyz="0. 0. 0"/>
+            <mass value="0.005"/>
+            <inertia ixx="9.75e-07" ixy="0.0" ixz="0.0" iyy="0.0000273104" iyz="0.0" izz="0.0000273104"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+            <cylinder length="0.005" radius="0.12"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="-0.211396 -0.119762 -0.082219"/>
+        <geometry>
+          <mesh filename="package://am_description/meshes/hex_x/prop_ccw_assembly_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material  name="darkgray">
+            <color rgba="0.6 0.6 0.6 1"/>
+        </material>
+      </visual>
+    </link>
+     <joint name='rotor4_joint' type='revolute'>
+        <child  link="rotor4"/>
+        <parent link="base_link"/>
+        <axis xyz="0.0 0.0 1"/>
+        <limit effort="10" lower="-1e+16" upper="1e+16" velocity="-1"/>
+        <origin rpy="0 0 2.0944" xyz="-0.209396 -0.122762 0.082219"/>
+    </joint>
+
+    <link name='rotor5'>
+       <inertial>
+            <origin rpy=" 0 0 0" xyz="0. 0. 0"/>
+            <mass value="0.005"/>
+            <inertia ixx="9.75e-07" ixy="0.0" ixz="0.0" iyy="0.0000273104" iyz="0.0" izz="0.0000273104"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+            <cylinder length="0.005" radius="0.12"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="-0.211396 -0.119762 -0.082219"/>
+        <geometry>
+          <mesh filename="package://am_description/meshes/hex_x/prop_ccw_assembly_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material  name="darkgray">
+            <color rgba="0.6 0.6 0.6 1"/>
+        </material>
+      </visual>
+    </link>
+     <joint name='rotor5_joint' type='revolute'>
+        <child  link="rotor5"/>
+        <parent link="base_link"/>
+        <axis xyz="0.0 0.0 1"/>
+        <limit effort="10" lower="-1e+16" upper="1e+16" velocity="-1"/>
+        <origin rpy="0 0 -2.0944" xyz="0.211396 -0.119762 0.082219"/>
+    </joint>
+
+    <link name='rotor6'>
+       <inertial>
+            <origin rpy=" 0 0 0" xyz="0. 0. 0"/>
+            <mass value="0.005"/>
+            <inertia ixx="9.75e-07" ixy="0.0" ixz="0.0" iyy="0.0000273104" iyz="0.0" izz="0.0000273104"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+            <cylinder length="0.005" radius="0.12"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="0.00187896 -0.242705 -0.082219"/>
+        <geometry>
+          <mesh filename="package://am_description/meshes/hex_x/prop_cw_assembly_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material  name="blue">
+            <color rgba="0.0 0.0 1 1"/>
+        </material>
+      </visual>
+    </link>
+     <joint name='rotor6_joint' type='revolute'>
+        <child  link="rotor6"/>
+        <parent link="base_link"/>
+        <axis xyz="0 0.0 1"/>
+        <limit effort="10" lower="-1e+16" upper="1e+16" velocity="-1"/>
+        <origin rpy="0 0 1.0472" xyz="-0.209396 0.122762 0.082219"/>
+    </joint>
+</robot>

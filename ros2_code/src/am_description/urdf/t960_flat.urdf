@@ -1,0 +1,301 @@
+<?xml version="1.0"?>
+<robot name="t960_flat" xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <link name="map"/>  
+    <link name="base_link_roll"/>
+    <link name="base_link_pitch"/>
+    <link name="base_link_yaw"/>
+    <link name="x_link"/>
+    <link name="y_link"/>
+    <link name="z_link"/>
+
+    <joint name="x_joint" type="prismatic">
+                <parent link="map"/>
+                <child link="x_link"/>
+                <axis xyz="1 0 0"/>
+                <limit effort="1000.0" lower="-100.0" upper="100.0" velocity="20"/>
+    </joint>
+    <joint name="y_joint" type="prismatic">
+                <parent link="x_link"/>
+                <child link="y_link"/>
+                <axis xyz="0 1 0"/>
+                <limit effort="1000.0" lower="-100.0" upper="100.0" velocity="20"/>
+    </joint>
+    <joint name="z_joint" type="prismatic">
+                <parent link="y_link"/>
+                <child link="z_link"/>
+                <axis xyz="0 0 1"/>
+                <limit effort="1000.0" lower="-100.0" upper="100.0" velocity="20"/>
+    </joint>
+    <joint name="yaw_joint" type="revolute">
+                <parent link="z_link"/>
+                <child link="base_link_yaw"/>
+                <axis xyz="0 0 1"/>
+                <limit effort="10.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="20"/>
+    </joint>
+    <joint name="pitch_joint" type="revolute">
+                <parent link="base_link_yaw"/>
+                <child link="base_link_pitch"/>
+                <axis xyz="0 1 0"/>
+                <limit effort="10.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="20"/>
+    </joint>
+    <joint name="roll_joint" type="revolute">
+                <parent link="base_link_pitch"/>
+                <child link="base_link_roll"/>
+                <axis xyz="1 0 0"/>
+                <limit effort="10.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="20"/>
+    </joint>
+
+
+    <link name='base_link'>
+       <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <mass value="4.0"/>
+            <inertia ixx="0.18" ixy="0.0" ixz="0.0" iyy="0.18" iyz="0.0" izz="0.3"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.023"/>
+        <geometry>
+          <box size="0.3 0.3 0.046"/>
+        </geometry>
+      </collision>
+      <collision>
+        <origin rpy="0 1.570796 0" xyz="0 -0.23 -0.4 "/>
+        <geometry>
+            <cylinder length="0.64" radius="0.016"/>
+        </geometry>
+      </collision>
+      <collision>
+        <origin rpy="0 1.570796 0" xyz="0 0.23 -0.4 "/>
+        <geometry>
+            <cylinder length="0.64" radius="0.016"/>
+        </geometry>
+      </collision>
+      <collision>
+        <origin rpy="-0.33 0 0" xyz="0 -0.16 -0.19"/>
+        <geometry>
+            <cylinder length="0.46" radius="0.015"/>
+        </geometry>
+      </collision>
+      <collision>
+        <origin rpy="0.33 0 0" xyz="0 0.16 -0.19"/>
+        <geometry>
+            <cylinder length="0.46" radius="0.015"/>
+        </geometry>
+      </collision>
+
+      <visual>
+        <origin rpy="0 0 -1.570796" xyz="0 0 0.0"/>
+        <geometry>
+          <mesh filename="package://am_description/meshes/t960_flat/t960_flat_no_props.stl" scale="1 1 1"/>
+        </geometry>
+        <material  name="darkred">
+            <color rgba="0.6 0.0 0.0 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="base_joint" type="fixed">
+                <parent link="base_link_roll"/>
+                <child link="base_link"/>
+    </joint>
+
+    <link name='end_effector'>
+    </link>
+    <joint name="end_effector_joint" type="fixed">
+                <parent link="base_link"/>
+                <child link="end_effector"/>
+    </joint>
+
+    <link name="imu_link">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <mass value="0.015"/>
+            <inertia ixx="1e-05" ixy="0.0" ixz="0.0" iyy="1e-07" iyz="0.0" izz="1e-07"/>
+        </inertial>
+    </link>
+     <joint name='imu_joint' type='fixed'>
+        <child  link="imu_link"/>
+        <parent link="base_link"/>
+    </joint>
+   
+    <link name='rotor1'>
+       <inertial>
+            <origin rpy=" 0 0 1.570796" xyz="0. 0. 0"/>
+            <mass value="0.015"/>
+            <inertia ixx="0.00025" ixy="0.0" ixz="0.0" iyy="2e-06" iyz="0.0" izz="0.00025"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.004"/>
+        <geometry>
+            <cylinder length="0.008" radius="0.229"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://am_description/meshes/t960_flat/18in_prop.stl" scale="1 1 1"/>
+        </geometry>
+        <material  name="blue">
+            <color rgba="0.0 0.0 1 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name='rotor1_joint' type='revolute'>
+        <child  link="rotor1"/>
+        <parent link="base_link"/>
+        <axis xyz="0 0.0 1"/>
+        <limit effort="10" lower="-1e+16" upper="1e+16" velocity="-1"/>
+        <origin rpy="0  0    0.5236" xyz="0.4157    0.24   0.054737"/> 
+    </joint>
+
+    <link name='rotor2'>
+       <inertial>
+            <origin rpy=" 0 0 1.570796" xyz="0. 0. 0"/>
+            <mass value="0.015"/>
+            <inertia ixx="0.00025" ixy="0.0" ixz="0.0" iyy="2e-06" iyz="0.0" izz="0.00025"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.004"/>
+        <geometry>
+            <cylinder length="0.008" radius="0.229"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://am_description/meshes/t960_flat/18in_prop.stl" scale="1 1 1"/>
+        </geometry>
+        <material  name="yellow">
+            <color rgba="0.9 0.9 0.1 1"/>
+        </material>
+      </visual>
+    </link>
+     <joint name='rotor2_joint' type='revolute'>
+        <child  link="rotor2"/>
+        <parent link="base_link"/>
+        <axis xyz="0.0 0.0 1"/>
+        <limit effort="10" lower="-1e+16" upper="1e+16" velocity="-1"/>
+        <origin rpy="0 0  1.5708" xyz="0    0.4800    0.054737 "/> 
+    </joint>
+
+    <link name='rotor3'>
+      <inertial>
+            <origin rpy=" 0 0 1.570796" xyz="0. 0. 0"/>
+            <mass value="0.015"/>
+            <inertia ixx="0.00025" ixy="0.0" ixz="0.0" iyy="2e-06" iyz="0.0" izz="0.00025"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.004"/>
+        <geometry>
+            <cylinder length="0.008" radius="0.229"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://am_description/meshes/t960_flat/18in_prop.stl" scale="1 1 1"/>
+        </geometry>
+        <material  name="blue">
+            <color rgba="0.0 0.0 1 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name='rotor3_joint' type='revolute'>
+        <child  link="rotor3"/>
+        <parent link="base_link"/>
+        <axis xyz="0 0.0 1"/>
+        <limit effort="10" lower="-1e+16" upper="1e+16" velocity="-1"/>
+        <origin rpy="0 0 2.6180" xyz="-0.4157    0.2400    0.054737"/>
+    </joint>
+
+    <link name='rotor4'>
+      <inertial>
+            <origin rpy=" 0 0 1.570796" xyz="0. 0. 0"/>
+            <mass value="0.015"/>
+            <inertia ixx="0.00025" ixy="0.0" ixz="0.0" iyy="2e-06" iyz="0.0" izz="0.00025"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.004"/>
+        <geometry>
+            <cylinder length="0.008" radius="0.229"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://am_description/meshes/t960_flat/18in_prop.stl" scale="1 1 1"/>
+        </geometry>
+        <material  name="yellow">
+            <color rgba="0.9 0.9 0.1 1"/>
+        </material>
+      </visual>
+    </link>
+     <joint name='rotor4_joint' type='revolute'>
+        <child  link="rotor4"/>
+        <parent link="base_link"/>
+        <axis xyz="0.0 0.0 1"/>
+        <limit effort="10" lower="-1e+16" upper="1e+16" velocity="-1"/>
+        <origin rpy="0 0 -2.6180" xyz="-0.4157   -0.2400     0.054737 "/> 
+    </joint>
+
+    <link name='rotor5'>
+      <inertial>
+            <origin rpy=" 0 0 1.570796" xyz="0. 0. 0"/>
+            <mass value="0.015"/>
+            <inertia ixx="0.00025" ixy="0.0" ixz="0.0" iyy="2e-06" iyz="0.0" izz="0.00025"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.004"/>
+        <geometry>
+            <cylinder length="0.008" radius="0.229"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://am_description/meshes/t960_flat/18in_prop.stl" scale="1 1 1"/>
+        </geometry>
+        <material  name="blue">
+            <color rgba="0.0 0.0 1 1"/>
+        </material>
+      </visual>
+    </link>
+     <joint name='rotor5_joint' type='revolute'>
+        <child  link="rotor5"/>
+        <parent link="base_link"/>
+        <axis xyz="0 0.0 1"/>
+        <limit effort="10" lower="-1e+16" upper="1e+16" velocity="-1"/>
+        <origin rpy="0         0   -1.5708" xyz="0   -0.4800     0.054737 "/>          
+    </joint>
+
+    <link name='rotor6'>
+      <inertial>
+            <origin rpy=" 0 0 1.570796" xyz="0. 0. 0"/>
+            <mass value="0.015"/>
+            <inertia ixx="0.00025" ixy="0.0" ixz="0.0" iyy="2e-06" iyz="0.0" izz="0.00025"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.004"/>
+        <geometry>
+            <cylinder length="0.008" radius="0.229"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://am_description/meshes/t960_flat/18in_prop.stl" scale="1 1 1"/>
+        </geometry>
+        <material  name="yellow">
+            <color rgba="0.9 0.9 0.1 1"/>
+        </material>
+      </visual>
+    </link>
+     <joint name='rotor6_joint' type='revolute'>
+        <child  link="rotor6"/>
+        <parent link="base_link"/>
+        <axis xyz="0.0 0.0 1"/>
+        <limit effort="10" lower="-1e+16" upper="1e+16" velocity="-1"/>
+        <origin rpy="0 0 -0.5236" xyz="0.4157   -0.2400         0.054737 "/>
+    </joint>
+
+</robot>

@@ -1,0 +1,132 @@
+#!/bin/sh
+#
+# @name Tilted hexarotor with fixed arm
+#
+# @type Hexarotor x
+# @class Copter
+# @maintainer Tareq Alqutami  <tareqaziz2010@gmail.com>
+
+. ${R}etc/init.d/rc.mc_defaults
+
+param set-default CA_AIRFRAME 0 #Multirotor
+param set-default CA_ROTOR_COUNT 6 # rotor count
+param set-default MAV_TYPE 13 # MAV_TYPE 13 = hexarotor
+
+# disable MC desaturation which improves attitude tracking
+param set-default CA_METHOD 0
+# disable attitude failure detection
+param set-default FD_FAIL_P 0
+param set-default FD_FAIL_R 0
+
+param set-default EKF2_GPS_P_NOISE 0.005
+param set-default EKF2_GPS_V_NOISE 0.01
+
+
+###############################################
+# Gains
+###############################################
+
+param set-default MC_AT_EN 0 # autotune module enabled
+# Roll
+param set-default MC_ROLLRATE_K 1.0
+param set-default MC_ROLLRATE_P 0.15
+param set-default MC_ROLLRATE_I 0.15
+param set-default MC_ROLLRATE_D 0.003
+param set-default MC_ROLL_P 6.5
+
+# Pitch
+param set-default MC_PITCHRATE_K 1.0
+param set-default MC_PITCHRATE_P 0.15
+param set-default MC_PITCHRATE_I 0.15
+param set-default MC_PITCHRATE_D 0.003
+param set-default MC_PITCH_P 6.5
+
+#yaw
+param set-default MC_YAWRATE_K 1.0
+param set-default MC_YAWRATE_P 0.2
+param set-default MC_YAWRATE_I 0.05
+param set-default MC_YAWRATE_D 0.0
+param set-default MC_YAW_P 5.0
+
+#velocity gain
+param set-default MPC_XY_VEL_P_ACC 4
+param set-default MPC_XY_VEL_I_ACC 4
+param set-default MPC_XY_VEL_D_ACC 0.2
+
+param set-default MPC_Z_VEL_P_ACC 4.0
+param set-default MPC_Z_VEL_I_ACC 1.05
+param set-default MPC_Z_VEL_D_ACC 0.8
+
+# position gain
+param set-default MPC_XY_P 0.95
+param set-default MPC_Z_P 0.8
+
+
+
+param set-default RTL_DESCEND_ALT 10
+param set-default MIS_TAKEOFF_ALT 1.1
+
+param set-default TRIG_INTERFACE 3
+param set-default TRIG_MODE 4
+param set-default MNT_MODE_IN 4
+param set-default MNT_MODE_OUT 2
+param set-default MAV_PROTO_VER 2
+
+#X-forward, Y-right
+#CW:-1, CCW:1
+# arm Length (L) = wheelebase/2 = 0.48/2
+# Rotor XYZ axis (NED) = (X, -Y,-Z) of Gazebo SDF axis (ENU, X-forward, Y-left, Z-up)
+param set-default CA_ROTOR0_PX 0.0 
+param set-default CA_ROTOR0_PY 0.24 
+param set-default CA_ROTOR0_PZ -0.0822169
+param set-default CA_ROTOR0_KM -0.05 # CW
+param set-default CA_ROTOR0_AX 0.5 
+param set-default CA_ROTOR0_AY 0.0
+param set-default CA_ROTOR0_AZ -0.866025  
+
+param set-default CA_ROTOR1_PX 0.0
+param set-default CA_ROTOR1_PY -0.24
+param set-default CA_ROTOR1_PZ -0.0822169
+param set-default CA_ROTOR1_KM 0.05 #CCW
+param set-default CA_ROTOR1_AX 0.5
+param set-default CA_ROTOR1_AY 0.0
+param set-default CA_ROTOR1_AZ -0.866025
+
+param set-default CA_ROTOR2_PX 0.2078  
+param set-default CA_ROTOR2_PY -0.12 
+param set-default CA_ROTOR2_PZ -0.0822169
+param set-default CA_ROTOR2_KM -0.05 # CW
+param set-default CA_ROTOR2_AX -0.25
+param set-default CA_ROTOR2_AY -0.4330125
+param set-default CA_ROTOR2_AZ -0.866025
+
+param set-default CA_ROTOR3_PX -0.2078 
+param set-default CA_ROTOR3_PY 0.12 
+param set-default CA_ROTOR3_PZ -0.0822169
+param set-default CA_ROTOR3_KM 0.05 #CCW
+param set-default CA_ROTOR3_AX -0.25
+param set-default CA_ROTOR3_AY -0.4330125
+param set-default CA_ROTOR3_AZ -0.866025
+
+param set-default CA_ROTOR4_PX 0.2078 
+param set-default CA_ROTOR4_PY 0.12 
+param set-default CA_ROTOR4_PZ -0.0822169
+param set-default CA_ROTOR4_KM 0.05
+param set-default CA_ROTOR4_AX -0.25
+param set-default CA_ROTOR4_AY 0.4330125
+param set-default CA_ROTOR4_AZ -0.866025
+
+param set-default CA_ROTOR5_PX -0.2078
+param set-default CA_ROTOR5_PY -0.12  
+param set-default CA_ROTOR5_PZ -0.0822169
+param set-default CA_ROTOR5_KM -0.05 # CW
+param set-default CA_ROTOR5_AX -0.25
+param set-default CA_ROTOR5_AY 0.4330125
+param set-default CA_ROTOR5_AZ -0.866025
+
+param set-default PWM_MAIN_FUNC1 101
+param set-default PWM_MAIN_FUNC2 102
+param set-default PWM_MAIN_FUNC3 103
+param set-default PWM_MAIN_FUNC4 104
+param set-default PWM_MAIN_FUNC5 105
+param set-default PWM_MAIN_FUNC6 106

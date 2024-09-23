@@ -1,0 +1,100 @@
+#!/bin/sh
+#
+# @name Tarot T960
+#
+# @type Hexarotor x
+#
+
+. ${R}etc/init.d/rc.mc_defaults
+
+
+
+param set-default MAV_TYPE 13 # MAV_TYPE 13 = hexarotor
+param set-default CA_AIRFRAME 0 #Multirotor
+param set-default CA_ROTOR_COUNT 6 # rotor count
+
+# disable MC desaturation which improves attitude tracking
+param set-default CA_METHOD 0
+# disable attitude failure detection
+param set-default FD_FAIL_P 0
+param set-default FD_FAIL_R 0
+
+# param set-default EKF2_GPS_P_NOISE 0.005
+# param set-default EKF2_GPS_V_NOISE 0.01
+
+###############################################
+# Gains
+###############################################
+
+param set-default MC_AT_EN 0 # autotune module enabled
+
+param set MC_PITCHRATE_P 0.0800
+param set MC_PITCHRATE_I 0.0400
+param set MC_PITCHRATE_D 0.0010
+param set MC_PITCH_P 9.0
+param set MC_PITCHRATE_MAX 180.0
+
+param set MC_ROLLRATE_P 0.0800
+param set MC_ROLLRATE_I 0.0400
+param set MC_ROLLRATE_D 0.0010
+param set MC_ROLL_P 9.0
+param set MC_ROLLRATE_MAX 180.0
+
+param set MC_YAWRATE_MAX 60.0
+
+param set MPC_HOLD_MAX_XY 0.25
+param set MPC_THR_MIN 0.15
+param set MPC_Z_VEL_MAX_DN 2.0
+
+param set-default MPC_XY_VEL_I_ACC 4
+param set-default MPC_XY_VEL_P_ACC 3
+
+param set-default RTL_DESCEND_ALT 10
+param set-default MIS_TAKEOFF_ALT 1.1
+
+param set-default TRIG_INTERFACE 3
+param set-default TRIG_MODE 4
+param set-default MNT_MODE_IN 4
+param set-default MNT_MODE_OUT 2
+param set-default MAV_PROTO_VER 2
+
+
+###############################################
+# Rotors positions, axes and directions
+###############################################
+param set-default CA_ROTOR0_PX  0.4157
+param set-default CA_ROTOR0_PY -0.2400
+param set-default CA_ROTOR0_PZ -0.054737
+param set-default CA_ROTOR0_KM -0.05    # CW
+
+param set-default CA_ROTOR1_PX 0.0
+param set-default CA_ROTOR1_PY -0.480
+param set-default CA_ROTOR1_PZ -0.054737
+param set-default CA_ROTOR1_KM 0.05     # CCW
+
+param set-default CA_ROTOR2_PX -0.4157
+param set-default CA_ROTOR2_PY -0.2400
+param set-default CA_ROTOR2_PZ -0.054737
+param set-default CA_ROTOR2_KM -0.05      # CW
+
+param set-default CA_ROTOR3_PX -0.4157
+param set-default CA_ROTOR3_PY 0.2400
+param set-default CA_ROTOR3_PZ -0.054737
+param set-default CA_ROTOR3_KM 0.05     # CCW 
+
+param set-default CA_ROTOR4_PX 0.0
+param set-default CA_ROTOR4_PY 0.480
+param set-default CA_ROTOR4_PZ -0.054737
+param set-default CA_ROTOR4_KM -0.05     # CW
+
+param set-default CA_ROTOR5_PX 0.4157
+param set-default CA_ROTOR5_PY 0.2400
+param set-default CA_ROTOR5_PZ -0.054737
+param set-default CA_ROTOR5_KM 0.05     # CCW
+
+param set-default PWM_MAIN_FUNC1 101
+param set-default PWM_MAIN_FUNC2 102
+param set-default PWM_MAIN_FUNC3 103
+param set-default PWM_MAIN_FUNC4 104
+param set-default PWM_MAIN_FUNC5 105
+param set-default PWM_MAIN_FUNC6 106
