@@ -1,6 +1,7 @@
 build/
 install/
 ros2_code/src/px4_msgs
+ros2_code/src/traj_gen
 matlab/results
 log/
 __pycache__/

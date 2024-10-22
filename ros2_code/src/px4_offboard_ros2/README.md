@@ -83,7 +83,7 @@ ros2 launch files description.
 
 7. Switch to offboard mode in QgroundControl or using rqt_reconfigure by ticking `engage_px4_offboard_mode` after running    ```bash ros2 run rqt_reconfigure rqt_reconfigure```.
        
-8. Command target pose from rviz marker or use command signal generator
+8. Command target pose from rviz marker, use command signal generator, or a trajectory generator such as [this](https://github.com/TareqAlqutami/traj_gen)
    ```bash
    ros2 run px4_offboard_ros2 cmd_sig_generator
    ```

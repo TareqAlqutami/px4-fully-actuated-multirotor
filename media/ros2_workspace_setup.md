@@ -1,14 +1,19 @@
 # ROS2 workspace setup
 
-1. download PX4 msgs dependency and checkout the right version. For px4 v1.15, main branch of px4_msgs throws serialization errors and there is no branch in px4_msgs for px4 v1.15. We checkout a specific commit instead.
-   ```bash
-   cd ros2_code
-   git clone https://github.com/PX4/px4_msgs.git src/px4_msgs
-   cd src/px4_msgs
-   git checkout bd9dc0fae0162960a31af8f232a9e9f85522ae73
-   cd ../..
-   ```
-
+1. download dependencies (px4_msgs and traj_gen):
+   - **px4_msgs** : checkout the right version. For px4 v1.15, main branch of px4_msgs throws serialization errors and there is no branch in px4_msgs for px4 v1.15. We checkout a specific commit instead.
+      ```bash
+      cd ros2_code
+      git clone https://github.com/PX4/px4_msgs.git src/px4_msgs
+      cd src/px4_msgs
+      git checkout bd9dc0fae0162960a31af8f232a9e9f85522ae73
+      cd ../..
+      ```
+   - **traj_gen** (optional): used to generate desired trajectory to be executed by the UAV
+      ```bash
+      cd ros2_code
+      git clone https://github.com/TareqAlqutami/traj_gen.git src/traj_gen
+      ```
 2. source ROS2
 
    You can use a script to source ros2. We already have one script to source foxy:

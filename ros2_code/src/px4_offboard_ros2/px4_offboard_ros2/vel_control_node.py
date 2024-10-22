@@ -22,9 +22,8 @@ from px4_msgs.msg import VehicleAttitudeSetpoint, VehicleCommand
 from px4_msgs.msg import VehicleStatus, VehicleAttitude, VehicleLocalPosition, HoverThrustEstimate
 
 from px4_offboard_ros2.PIDn import PIDn
-from px4_offboard_ros2.traj_generator import TrapezoidalProfile
 from px4_offboard_ros2.px4_transforms import px4_to_ros_local_frame, px4_to_ros_orientation, ros_to_px4_orientation, ros_to_px4_body_vector
-from px4_offboard_ros2.common import thrust_to_attitude
+from px4_offboard_ros2.common import thrust_to_attitude, TrapezoidalProfile
 
 class OffboardVelControl(Node):
     """
